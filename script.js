@@ -1,6 +1,6 @@
 /* =========================================
    OLABIS RESTAURANT
-   CLEAN JAVASCRIPT
+   COMPLETE JAVASCRIPT
 ========================================= */
 
 
@@ -33,7 +33,6 @@ if (backToTop) {
 ========================================= */
 
 const galleryItems = document.querySelectorAll(".gallery-item img");
-
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const lightboxClose = document.getElementById("lightboxClose");
@@ -42,8 +41,6 @@ const lightboxNext = document.getElementById("lightboxNext");
 
 let currentImage = 0;
 
-
-/* Show selected image */
 
 function showImage(index) {
 
@@ -54,11 +51,10 @@ function showImage(index) {
     currentImage =
         (index + galleryItems.length) % galleryItems.length;
 
-    lightboxImage.src = galleryItems[currentImage].src;
+    lightboxImage.src =
+        galleryItems[currentImage].src;
 }
 
-
-/* Open lightbox */
 
 galleryItems.forEach((image, index) => {
 
@@ -78,8 +74,6 @@ galleryItems.forEach((image, index) => {
 });
 
 
-/* Close lightbox */
-
 function closeLightbox() {
 
     if (!lightbox) {
@@ -92,14 +86,15 @@ function closeLightbox() {
 }
 
 
-/* Close button */
-
 if (lightboxClose) {
-    lightboxClose.addEventListener("click", closeLightbox);
+
+    lightboxClose.addEventListener(
+        "click",
+        closeLightbox
+    );
+
 }
 
-
-/* Close when clicking background */
 
 if (lightbox) {
 
@@ -114,8 +109,6 @@ if (lightbox) {
 }
 
 
-/* Previous image */
-
 if (lightboxPrev) {
 
     lightboxPrev.addEventListener("click", (event) => {
@@ -128,8 +121,6 @@ if (lightboxPrev) {
 
 }
 
-
-/* Next image */
 
 if (lightboxNext) {
 
@@ -150,7 +141,10 @@ if (lightboxNext) {
 
 document.addEventListener("keydown", (event) => {
 
-    if (!lightbox || !lightbox.classList.contains("show")) {
+    if (
+        !lightbox ||
+        !lightbox.classList.contains("show")
+    ) {
         return;
     }
 
@@ -176,18 +170,21 @@ document.addEventListener("keydown", (event) => {
 let touchStartX = 0;
 let touchEndX = 0;
 
+
 if (lightbox) {
 
     lightbox.addEventListener("touchstart", (event) => {
 
-        touchStartX = event.changedTouches[0].screenX;
+        touchStartX =
+            event.changedTouches[0].screenX;
 
     });
 
 
     lightbox.addEventListener("touchend", (event) => {
 
-        touchEndX = event.changedTouches[0].screenX;
+        touchEndX =
+            event.changedTouches[0].screenX;
 
         handleSwipe();
 
@@ -198,106 +195,205 @@ if (lightbox) {
 
 function handleSwipe() {
 
-    const swipeDistance = touchEndX - touchStartX;
-
-    /* Ignore tiny movements */
+    const swipeDistance =
+        touchEndX - touchStartX;
 
     if (Math.abs(swipeDistance) < 50) {
         return;
     }
 
-
-    /* Swipe left = next */
-
     if (swipeDistance < 0) {
+
         showImage(currentImage + 1);
-    }
 
+    } else {
 
-    /* Swipe right = previous */
-
-    else {
         showImage(currentImage - 1);
+
     }
 
 }
+
+
 /* =========================================
    ACTIVE NAVIGATION
 ========================================= */
 
-const navLinks = document.querySelectorAll(".navbar nav a");
-const sections = document.querySelectorAll("section[id]");
+const navLinks =
+    document.querySelectorAll(".navbar nav a");
+
+const sections =
+    document.querySelectorAll("section[id]");
+
 
 function updateActiveNav() {
+
     let currentSection = "home";
 
     sections.forEach((section) => {
-        const sectionTop = section.offsetTop - 180;
+
+        const sectionTop =
+            section.offsetTop - 180;
 
         if (window.scrollY >= sectionTop) {
-            currentSection = section.getAttribute("id");
+
+            currentSection =
+                section.getAttribute("id");
+
         }
+
     });
+
 
     navLinks.forEach((link) => {
+
         link.classList.remove("active");
 
-        if (link.getAttribute("href") === `#${currentSection}`) {
+        if (
+            link.getAttribute("href") ===
+            `#${currentSection}`
+        ) {
+
             link.classList.add("active");
+
         }
+
     });
+
 }
 
-window.addEventListener("scroll", updateActiveNav);
+
+window.addEventListener(
+    "scroll",
+    updateActiveNav
+);
 
 updateActiveNav();
+
+
 /* =========================================
    SCROLL REVEAL
 ========================================= */
 
-const revealElements = document.querySelectorAll(
-    ".menu-card, .about-image, .about-content, .gallery-item, .hours-card, .contact-card"
-);
+const revealElements =
+    document.querySelectorAll(
+        ".menu-card, .about-image, .about-content, .gallery-item, .hours-card, .contact-card"
+    );
+
 
 revealElements.forEach((element) => {
+
     element.classList.add("reveal");
+
 });
 
-const revealObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    },
-    {
-        threshold: 0.15
-    }
-);
+
+const revealObserver =
+    new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show");
+
+                    revealObserver.unobserve(
+                        entry.target
+                    );
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
 
 revealElements.forEach((element) => {
+
     revealObserver.observe(element);
+
 });
+
+
 /* =========================================
-   OLABIS MULTI-ITEM ORDER CART
+   ORDER BUILDER
 ========================================= */
 
-const foodSelect = document.getElementById("foodSelect");
-const foodQuantity = document.getElementById("foodQuantity");
-const addFoodBtn = document.getElementById("addFoodBtn");
 
-const proteinSelect = document.getElementById("proteinSelect");
-const proteinQuantity = document.getElementById("proteinQuantity");
-const addProteinBtn = document.getElementById("addProteinBtn");
+/* FOOD */
 
-const orderItems = document.getElementById("orderItems");
-const orderTotal = document.getElementById("orderTotal");
+const foodSelect =
+    document.getElementById("foodSelect");
+
+const foodQuantity =
+    document.getElementById("foodQuantity");
+
+const addFoodBtn =
+    document.getElementById("addFoodBtn");
+
+
+/* PROTEIN */
+
+const proteinSelect =
+    document.getElementById("proteinSelect");
+
+const proteinQuantity =
+    document.getElementById("proteinQuantity");
+
+const addProteinBtn =
+    document.getElementById("addProteinBtn");
+
+
+/* SOUP */
+
+const soupSelect =
+    document.getElementById("soupSelect");
+
+const soupQuantity =
+    document.getElementById("soupQuantity");
+
+const addSoupBtn =
+    document.getElementById("addSoupBtn");
+
+
+/* CART */
+
+const orderItems =
+    document.getElementById("orderItems");
+
+const orderTotal =
+    document.getElementById("orderTotal");
+
+
+/* CUSTOMER DETAILS */
+
+const customerName =
+    document.getElementById("customerName");
+
+const customerNote =
+    document.getElementById("customerNote");
+
+
+/* WHATSAPP */
+
+const whatsappOrderBtn =
+    document.getElementById("whatsappOrderBtn");
+
+
+/* ORDER CART */
 
 let orderCart = [];
 
-/* COMPULSORY TAKEAWAY PACK */
+
+/* =========================================
+   COMPULSORY TAKEAWAY PACK
+========================================= */
+
 const takeawayPackPrice = 200;
 
 
@@ -305,55 +401,132 @@ const takeawayPackPrice = 200;
    ADD FOOD
 ========================================= */
 
-addFoodBtn.addEventListener("click", () => {
+if (addFoodBtn) {
 
-    const name =
-        foodSelect.options[foodSelect.selectedIndex].value;
+    addFoodBtn.addEventListener("click", () => {
 
-    const price =
-        Number(
-            foodSelect.options[foodSelect.selectedIndex]
-            .dataset.price
+        const name =
+            foodSelect.options[
+                foodSelect.selectedIndex
+            ].value;
+
+        const price =
+            Number(
+                foodSelect.options[
+                    foodSelect.selectedIndex
+                ].dataset.price
+            );
+
+        const quantity =
+            Math.max(
+                1,
+                Number(foodQuantity.value) || 1
+            );
+
+        addToCart(
+            name,
+            price,
+            quantity,
+            "food"
         );
 
-    const quantity =
-        Math.max(1, Number(foodQuantity.value) || 1);
+    });
 
-    addToCart(name, price, quantity, "food");
-});
+}
 
 
 /* =========================================
    ADD PROTEIN
 ========================================= */
 
-addProteinBtn.addEventListener("click", () => {
+if (addProteinBtn) {
 
-    const name =
-        proteinSelect.options[proteinSelect.selectedIndex].value;
+    addProteinBtn.addEventListener("click", () => {
 
-    const price =
-        Number(
-            proteinSelect.options[proteinSelect.selectedIndex]
-            .dataset.price
+        const name =
+            proteinSelect.options[
+                proteinSelect.selectedIndex
+            ].value;
+
+        const price =
+            Number(
+                proteinSelect.options[
+                    proteinSelect.selectedIndex
+                ].dataset.price
+            );
+
+        const quantity =
+            Math.max(
+                1,
+                Number(proteinQuantity.value) || 1
+            );
+
+        addToCart(
+            name,
+            price,
+            quantity,
+            "protein"
         );
 
-    const quantity =
-        Math.max(1, Number(proteinQuantity.value) || 1);
+    });
 
-    addToCart(name, price, quantity, "protein");
-});
+}
 
 
 /* =========================================
-   ADD ITEM TO CART
+   ADD SOUP
 ========================================= */
 
-function addToCart(name, price, quantity, type) {
+if (addSoupBtn) {
 
-    const existingItem = orderCart.find(
-        item => item.name === name
-    );
+    addSoupBtn.addEventListener("click", () => {
+
+        const name =
+            soupSelect.options[
+                soupSelect.selectedIndex
+            ].value;
+
+        const price =
+            Number(
+                soupSelect.options[
+                    soupSelect.selectedIndex
+                ].dataset.price
+            );
+
+        const quantity =
+            Math.max(
+                1,
+                Number(soupQuantity.value) || 1
+            );
+
+        addToCart(
+            name,
+            price,
+            quantity,
+            "soup"
+        );
+
+    });
+
+}
+
+
+/* =========================================
+   ADD TO CART
+========================================= */
+
+function addToCart(
+    name,
+    price,
+    quantity,
+    type
+) {
+
+    const existingItem =
+        orderCart.find(
+            item => item.name === name
+        );
+
 
     if (existingItem) {
 
@@ -362,30 +535,38 @@ function addToCart(name, price, quantity, type) {
     } else {
 
         orderCart.push({
-            name: name,
-            price: price,
-            quantity: quantity,
-            type: type
+            name,
+            price,
+            quantity,
+            type
         });
 
     }
 
+
     renderCart();
+
 }
 
 
 /* =========================================
-   DISPLAY CART
+   RENDER CART
 ========================================= */
 
 function renderCart() {
 
+    if (!orderItems || !orderTotal) {
+        return;
+    }
+
+
     orderItems.innerHTML = "";
+
 
     let total = takeawayPackPrice;
 
 
-    /* EMPTY ORDER MESSAGE */
+    /* EMPTY CART */
 
     if (orderCart.length === 0) {
 
@@ -398,7 +579,7 @@ function renderCart() {
     }
 
 
-    /* DISPLAY FOOD + PROTEIN */
+    /* ORDER ITEMS */
 
     orderCart.forEach((item, index) => {
 
@@ -411,25 +592,41 @@ function renderCart() {
         const cartItem =
             document.createElement("div");
 
-        cartItem.className = "cart-item";
+        cartItem.className =
+            "cart-item";
+
+
+        const priceDisplay =
+            item.price === 0
+                ? "FREE"
+                : `₦${itemTotal.toLocaleString()}`;
+
+
+        const quantityDisplay =
+            item.price === 0
+                ? `${item.quantity} × FREE`
+                : `${item.quantity} × ₦${item.price.toLocaleString()}`;
 
 
         cartItem.innerHTML = `
+
             <div class="cart-item-info">
 
-                <strong>${item.name}</strong>
+                <strong>
+                    ${item.name}
+                </strong>
 
                 <span>
-                    ${item.quantity} ×
-                    ₦${item.price.toLocaleString()}
+                    ${quantityDisplay}
                 </span>
 
             </div>
 
+
             <div class="cart-item-right">
 
                 <strong>
-                    ₦${itemTotal.toLocaleString()}
+                    ${priceDisplay}
                 </strong>
 
                 <button
@@ -442,17 +639,18 @@ function renderCart() {
                 </button>
 
             </div>
+
         `;
 
 
-        orderItems.appendChild(cartItem);
+        orderItems.appendChild(
+            cartItem
+        );
 
     });
 
 
-    /* =========================================
-       COMPULSORY TAKEAWAY PACK
-    ========================================= */
+    /* TAKEAWAY PACK */
 
     const takeawayItem =
         document.createElement("div");
@@ -462,9 +660,12 @@ function renderCart() {
 
 
     takeawayItem.innerHTML = `
+
         <div class="cart-item-info">
 
-            <strong>Takeaway Pack</strong>
+            <strong>
+                Takeaway Pack
+            </strong>
 
             <span>
                 Compulsory
@@ -472,45 +673,53 @@ function renderCart() {
 
         </div>
 
+
         <div class="cart-item-right">
 
             <strong>
-                ₦200
+                ₦${takeawayPackPrice.toLocaleString()}
             </strong>
 
         </div>
+
     `;
 
 
-    orderItems.appendChild(takeawayItem);
+    orderItems.appendChild(
+        takeawayItem
+    );
 
 
-    /* =========================================
-       TOTAL
-    ========================================= */
+    /* TOTAL */
 
     orderTotal.textContent =
         `₦${total.toLocaleString()}`;
 
 
-    /* =========================================
-       REMOVE ITEMS
-    ========================================= */
+    /* REMOVE ITEMS */
 
     document
         .querySelectorAll(".remove-item")
-        .forEach(button => {
+        .forEach((button) => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const index =
-                    Number(button.dataset.index);
+                    const index =
+                        Number(
+                            button.dataset.index
+                        );
 
-                orderCart.splice(index, 1);
+                    orderCart.splice(
+                        index,
+                        1
+                    );
 
-                renderCart();
+                    renderCart();
 
-            });
+                }
+            );
 
         });
 
@@ -522,119 +731,131 @@ function renderCart() {
 ========================================= */
 
 renderCart();
+
+
 /* =========================================
-   SEND CART TO WHATSAPP
+   WHATSAPP ORDER
 ========================================= */
 
-const whatsappOrderBtn =
-    document.getElementById("whatsappOrderBtn");
+if (whatsappOrderBtn) {
 
-const customerName =
-    document.getElementById("customerName");
+    whatsappOrderBtn.addEventListener(
+        "click",
+        () => {
 
-const customerNote =
-    document.getElementById("customerNote");
+            /* MUST HAVE AT LEAST ONE ITEM */
 
+            if (orderCart.length === 0) {
 
-whatsappOrderBtn.addEventListener("click", () => {
+                alert(
+                    "Please add at least one item to your order."
+                );
 
-    /* CHECK CART */
-
-    if (orderCart.length === 0) {
-
-        alert("Please add at least one item to your order.");
-
-        return;
-    }
+                return;
+            }
 
 
-    /* CUSTOMER DETAILS */
-
-    const name =
-        customerName.value.trim();
-
-    const note =
-        customerNote.value.trim();
+            const name =
+                customerName
+                    ? customerName.value.trim()
+                    : "";
 
 
-    /* START MESSAGE */
-
-    let message =
-        "Hello OLABIS Restaurant, I'd like to place an order.\n\n";
-
-
-    /* CUSTOMER NAME */
-
-    if (name) {
-
-        message +=
-            `Name: ${name}\n\n`;
-
-    }
+            const note =
+                customerNote
+                    ? customerNote.value.trim()
+                    : "";
 
 
-    /* ORDER */
-
-    message += "Order:\n";
-
-
-    let total = 0;
+            let message =
+                "Hello OLABIS Restaurant, I'd like to place an order.\n\n";
 
 
-    orderCart.forEach(item => {
+            /* CUSTOMER NAME */
 
-        const itemTotal =
-            item.price * item.quantity;
+            if (name) {
 
-        total += itemTotal;
+                message +=
+                    `Name: ${name}\n\n`;
 
-
-        message +=
-            `- ${item.quantity} × ${item.name} — ₦${itemTotal.toLocaleString()}\n`;
-
-    });
+            }
 
 
-    /* TAKEAWAY PACK */
+            /* ORDER */
 
-    total += takeawayPackPrice;
-
-    message +=
-        `- Takeaway Pack — ₦${takeawayPackPrice.toLocaleString()}\n`;
+            message +=
+                "Order:\n";
 
 
-    /* TOTAL */
-
-    message +=
-        `\nTotal: ₦${total.toLocaleString()}`;
+            let total = 0;
 
 
-    /* SPECIAL REQUEST */
+            orderCart.forEach((item) => {
 
-    if (note) {
-
-        message +=
-            `\n\nSpecial Request: ${note}`;
-
-    }
+                const itemTotal =
+                    item.price * item.quantity;
 
 
-    message +=
-        "\n\nThank you!";
+                total += itemTotal;
 
 
-    /* WHATSAPP URL */
+                if (item.price === 0) {
 
-    const whatsappURL =
-        `https://wa.me/2348033594258?text=${encodeURIComponent(message)}`;
+                    message +=
+                        `- ${item.quantity} × ${item.name} — FREE\n`;
+
+                } else {
+
+                    message +=
+                        `- ${item.quantity} × ${item.name} — ₦${itemTotal.toLocaleString()}\n`;
+
+                }
+
+            });
 
 
-    /* OPEN WHATSAPP */
+            /* TAKEAWAY PACK */
 
-    window.open(
-        whatsappURL,
-        "_blank",
-        "noopener,noreferrer"
+            total += takeawayPackPrice;
+
+
+            message +=
+                `- Takeaway Pack — ₦${takeawayPackPrice.toLocaleString()}\n`;
+
+
+            /* TOTAL */
+
+            message +=
+                `\nTotal: ₦${total.toLocaleString()}`;
+
+
+            /* SPECIAL REQUEST */
+
+            if (note) {
+
+                message +=
+                    `\n\nSpecial Request: ${note}`;
+
+            }
+
+
+            message +=
+                "\n\nThank you!";
+
+
+            /* WHATSAPP URL */
+
+            const whatsappURL =
+                `https://wa.me/2348033594258?text=${encodeURIComponent(message)}`;
+
+
+            window.open(
+                whatsappURL,
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+        }
     );
 
-});
+}

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="google-site-verification" content="pYIoNOin8v8FSVGqSJSHLlmgnydeaX2gEjKtJamZHqU">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OLABIS Restaurant | Authentic Nigerian Swallow in Oshodi</title>
@@ -195,7 +196,7 @@
 
     <div class="menu-card soup-card">
         <div class="menu-image">
-            <img src="images/Food..jpg" alt="OLABIS Restaurant soup" loading="lazy" decoding="async">
+            <img src="images (12).jpg" alt="OLABIS Restaurant soup" loading="lazy" decoding="async">
         </div>
         <div class="menu-info">
             <h3>Traditional Soups</h3>
@@ -501,26 +502,70 @@
 
         </div>
 
+        <!-- ADD SOUP -->
+<div class="order-group">
 
-        <!-- CART -->
-        <div class="order-summary">
+    <h3>Add Soup</h3>
 
-            <h3>Your Order</h3>
+    <div class="order-item">
+        <label for="soupSelect">Choose Soup</label>
 
-            <div id="orderItems">
+        <select id="soupSelect">
+            <option value="Ewedu Soup" data-price="0">
+                Ewedu Soup — FREE
+            </option>
 
-                <p class="empty-order">
-                    Your order is empty.
-                </p>
+            <option value="Gbegiri Soup" data-price="0">
+                Gbegiri Soup — FREE
+            </option>
 
-            </div>
+            <option value="Egusi Soup" data-price="0">
+                Egusi Soup — FREE
+            </option>
 
-            <div class="summary-total">
-                <span>Total</span>
-                <strong id="orderTotal">₦0</strong>
-            </div>
+            <option value="Efo Riro" data-price="0">
+                Efo Riro — FREE
+            </option>
+        </select>
+    </div>
 
-        </div>
+    <div class="order-item">
+        <label for="soupQuantity">Quantity</label>
+
+        <input
+            type="number"
+            id="soupQuantity"
+            min="1"
+            value="1"
+        >
+    </div>
+
+    <button type="button" class="add-order-btn" id="addSoupBtn">
+        + Add Soup
+    </button>
+
+</div>
+
+<!-- CART -->
+<div class="order-summary">
+
+    <h3>Your Order</h3>
+
+    <div id="orderItems">
+
+        <p class="empty-order">
+            Your order is empty.
+        </p>
+
+    </div>
+
+    <div class="summary-total">
+        <span>Total</span>
+        <strong id="orderTotal">₦0</strong>
+    </div>
+
+</div>
+
 
 
         <!-- CUSTOMER DETAILS -->
