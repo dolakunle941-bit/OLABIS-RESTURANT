@@ -325,7 +325,9 @@ revealElements.forEach((element) => {
 ========================================= */
 
 
-/* FOOD */
+/* =========================================
+   FOOD
+========================================= */
 
 const foodSelect =
     document.getElementById("foodSelect");
@@ -337,7 +339,9 @@ const addFoodBtn =
     document.getElementById("addFoodBtn");
 
 
-/* PROTEIN */
+/* =========================================
+   PROTEIN
+========================================= */
 
 const proteinSelect =
     document.getElementById("proteinSelect");
@@ -349,7 +353,9 @@ const addProteinBtn =
     document.getElementById("addProteinBtn");
 
 
-/* SOUP */
+/* =========================================
+   SOUP
+========================================= */
 
 const soupSelect =
     document.getElementById("soupSelect");
@@ -361,7 +367,9 @@ const addSoupBtn =
     document.getElementById("addSoupBtn");
 
 
-/* CART */
+/* =========================================
+   CART
+========================================= */
 
 const orderItems =
     document.getElementById("orderItems");
@@ -370,7 +378,9 @@ const orderTotal =
     document.getElementById("orderTotal");
 
 
-/* CUSTOMER DETAILS */
+/* =========================================
+   CUSTOMER DETAILS
+========================================= */
 
 const customerName =
     document.getElementById("customerName");
@@ -379,13 +389,17 @@ const customerNote =
     document.getElementById("customerNote");
 
 
-/* WHATSAPP */
+/* =========================================
+   WHATSAPP
+========================================= */
 
 const whatsappOrderBtn =
     document.getElementById("whatsappOrderBtn");
 
 
-/* ORDER CART */
+/* =========================================
+   ORDER CART
+========================================= */
 
 let orderCart = [];
 
@@ -405,22 +419,25 @@ if (addFoodBtn) {
 
     addFoodBtn.addEventListener("click", () => {
 
-        const name =
+        if (!foodSelect) {
+            return;
+        }
+
+        const selectedOption =
             foodSelect.options[
                 foodSelect.selectedIndex
-            ].value;
+            ];
+
+        const name =
+            selectedOption.value;
 
         const price =
-            Number(
-                foodSelect.options[
-                    foodSelect.selectedIndex
-                ].dataset.price
-            );
+            Number(selectedOption.dataset.price);
 
         const quantity =
             Math.max(
                 1,
-                Number(foodQuantity.value) || 1
+                Number(foodQuantity?.value) || 1
             );
 
         addToCart(
@@ -443,22 +460,25 @@ if (addProteinBtn) {
 
     addProteinBtn.addEventListener("click", () => {
 
-        const name =
+        if (!proteinSelect) {
+            return;
+        }
+
+        const selectedOption =
             proteinSelect.options[
                 proteinSelect.selectedIndex
-            ].value;
+            ];
+
+        const name =
+            selectedOption.value;
 
         const price =
-            Number(
-                proteinSelect.options[
-                    proteinSelect.selectedIndex
-                ].dataset.price
-            );
+            Number(selectedOption.dataset.price);
 
         const quantity =
             Math.max(
                 1,
-                Number(proteinQuantity.value) || 1
+                Number(proteinQuantity?.value) || 1
             );
 
         addToCart(
@@ -481,22 +501,25 @@ if (addSoupBtn) {
 
     addSoupBtn.addEventListener("click", () => {
 
-        const name =
+        if (!soupSelect) {
+            return;
+        }
+
+        const selectedOption =
             soupSelect.options[
                 soupSelect.selectedIndex
-            ].value;
+            ];
+
+        const name =
+            selectedOption.value;
 
         const price =
-            Number(
-                soupSelect.options[
-                    soupSelect.selectedIndex
-                ].dataset.price
-            );
+            Number(selectedOption.dataset.price);
 
         const quantity =
             Math.max(
                 1,
-                Number(soupQuantity.value) || 1
+                Number(soupQuantity?.value) || 1
             );
 
         addToCart(
@@ -731,131 +754,3 @@ function renderCart() {
 ========================================= */
 
 renderCart();
-
-
-/* =========================================
-   WHATSAPP ORDER
-========================================= */
-
-if (whatsappOrderBtn) {
-
-    whatsappOrderBtn.addEventListener(
-        "click",
-        () => {
-
-            /* MUST HAVE AT LEAST ONE ITEM */
-
-            if (orderCart.length === 0) {
-
-                alert(
-                    "Please add at least one item to your order."
-                );
-
-                return;
-            }
-
-
-            const name =
-                customerName
-                    ? customerName.value.trim()
-                    : "";
-
-
-            const note =
-                customerNote
-                    ? customerNote.value.trim()
-                    : "";
-
-
-            let message =
-                "Hello OLABIS Restaurant, I'd like to place an order.\n\n";
-
-
-            /* CUSTOMER NAME */
-
-            if (name) {
-
-                message +=
-                    `Name: ${name}\n\n`;
-
-            }
-
-
-            /* ORDER */
-
-            message +=
-                "Order:\n";
-
-
-            let total = 0;
-
-
-            orderCart.forEach((item) => {
-
-                const itemTotal =
-                    item.price * item.quantity;
-
-
-                total += itemTotal;
-
-
-                if (item.price === 0) {
-
-                    message +=
-                        `- ${item.quantity} × ${item.name} — FREE\n`;
-
-                } else {
-
-                    message +=
-                        `- ${item.quantity} × ${item.name} — ₦${itemTotal.toLocaleString()}\n`;
-
-                }
-
-            });
-
-
-            /* TAKEAWAY PACK */
-
-            total += takeawayPackPrice;
-
-
-            message +=
-                `- Takeaway Pack — ₦${takeawayPackPrice.toLocaleString()}\n`;
-
-
-            /* TOTAL */
-
-            message +=
-                `\nTotal: ₦${total.toLocaleString()}`;
-
-
-            /* SPECIAL REQUEST */
-
-            if (note) {
-
-                message +=
-                    `\n\nSpecial Request: ${note}`;
-
-            }
-
-
-            message +=
-                "\n\nThank you!";
-
-
-            /* WHATSAPP URL */
-
-            const whatsappURL =
-                `https://wa.me/2348033594258?text=${encodeURIComponent(message)}`;
-
-
-            window.open(
-                whatsappURL,
-                "_blank",
-                "noopener,noreferrer"
-            );
-
-        }
-    );
-
-}
